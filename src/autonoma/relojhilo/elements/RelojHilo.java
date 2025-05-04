@@ -1,39 +1,31 @@
 package autonoma.relojhilo.elements;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  *
  * @author Kamii
  */
-public class RelojHilo implements Runnable{
-    private int segundos;
-    private int minutos;
-    private int hora;
+public class RelojHilo implements Runnable {
     private boolean corriendo = true;
-    
-    
+
     @Override
     public void run() {
-        while(corriendo){
-            try{
-                Thread.sleep(1000);
-            }catch(InterruptedException e){
-                
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        
+        while (corriendo) {
+            LocalTime ahora = LocalTime.now();
+            System.out.println("Hora: " + ahora.format(formatter));
+            try {
+                Thread.sleep(1000);  // Espera un segundo
+            } catch (InterruptedException e) {
+                // puedes manejar la interrupción aquí si quieres
             }
-            segundos++;
-            if(segundos == 60){
-                segundos = 0;
-                minutos++;
-            }
-            if(minutos == 60){
-                minutos = 0;
-                hora++;
-            }
-            System.out.println("Hora: " + hora + " Minutos: " + minutos + " Segundos: " +segundos); 
         }
-          
     }
-    
-    public void stop(){
+
+    public void stop() {
         this.corriendo = false;
     }
 
